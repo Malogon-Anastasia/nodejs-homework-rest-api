@@ -1,24 +1,30 @@
-const {User} = require("../../models");
-const {Conflict} = require("http-errors");
+const { User } = require("../../models");
+const { Conflict } = require("http-errors");
+// const bcrypt = require("bcryptjs");
 
-const register = async(req, res) => {
-    const { email, password } = req.body;
+const register = async (req, res) => {
+    const { name, email, password, subscription } = req.body;
     const user = await User.findOne({email});
-    if(user){
-        throw new Conflict(`User with ${email} already exist`)
+    if (user) {
+        throw new Conflict(`User with ${email} already exist`);
     }
-    const result = await User.create({email, password});
-    res.status(201).json({  
-        status: "success",
-        code: 201,
-        data: {
-            user: { 
-                email: result.email,
-                password: result.password,
-                subsctiption: result.subsctiption 
-            }
-        }
 
+    const newUser = new User({name, email, subscription});
+    newUser.setPassword(password);
+    newUser.save();
+    // const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10))
+    // const result = await User.create({ email, password: hashPassword });
+
+        res.status(201).json({  
+            message: 'success',
+            code: 201,
+            data: {
+                user: { name,
+                    email,
+                    subscription
+                }
+            }
+            
     })
 }
 
