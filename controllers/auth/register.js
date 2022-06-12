@@ -1,6 +1,5 @@
 const { User } = require("../../models");
 const { Conflict } = require("http-errors");
-// const bcrypt = require("bcryptjs");
 
 const register = async (req, res) => {
     const { name, email, password, subscription } = req.body;
@@ -12,20 +11,19 @@ const register = async (req, res) => {
     const newUser = new User({name, email, subscription});
     newUser.setPassword(password);
     newUser.save();
-    // const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10))
-    // const result = await User.create({ email, password: hashPassword });
-
+    
         res.status(201).json({  
-            message: 'success',
+            message: "success",
             code: 201,
             data: {
-                user: { name,
+                user: { 
+                    name,
                     email,
                     subscription
-                }
-            }
+                },
+            },
             
-    })
+    });
 }
 
 module.exports = register; 
