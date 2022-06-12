@@ -1,12 +1,13 @@
 const {Contact} = require("../../models")
 
 const getAll = async (req, res) => {
-    const products = await Contact.find({});
+    const { _id } = req.user;
+    const contacts = await Contact.find({owner: _id}).populate("owner", "_id name email subscription");
     res.json({
         status: "success",
         code: 200,
         data: {
-            result: products
+            result: contacts
         }
     });
 };
