@@ -1,6 +1,6 @@
 const mangoose = require("mongoose");
 const app = require('./app')
-const {PORT = 3000, DB_HOST} = process.env;
+const {PORT = 3001, DB_HOST} = process.env;
 
 mangoose.connect(DB_HOST)
   .then(() => {
