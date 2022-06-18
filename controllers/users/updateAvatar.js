@@ -1,4 +1,4 @@
-const {User} = require("../../models");
+const {User} = require("../../models/user");
 const path = require("path");
 const fs = require("fs/promises");
 
@@ -14,7 +14,7 @@ const updateAvatar = async(req, res) => {
         await fs.rename(tempUpload, resultUpload);
         const avatarUrl = path.join("public", "avatars", avatarName);
         await User.findByIdAndUpdate(req.user._id, {avatarUrl});
-        res.json({avatarUrl});
+        res.status(201).json({avatarUrl});
         } catch (error) {
             await fs.unlink(tempUpload);
             throw error;
